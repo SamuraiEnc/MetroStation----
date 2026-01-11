@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер с кейсами</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c1a2d 0%, #152642 100%);
+            color: #e0eaff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #2a4a7c;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #4d8eff;
+            text-shadow: 0 0 10px rgba(77, 142, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8cb1ff;
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .left-panel, .right-panel {
+            background: rgba(20, 35, 60, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid #2a4a7c;
+        }
+
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+        }
+
+        .right-panel {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(30, 50, 90, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid #3a5a9a;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8cb1ff;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .coin-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .coin-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        .coin {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #daa520);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 30px rgba(255, 215, 0, 0.5),
+                inset 0 -10px 20px rgba(139, 69, 19, 0.5);
+            transition: transform 0.3s ease;
+            border: 8px solid #b8860b;
+        }
+
+        .coin:before {
+            content: "$";
+            font-size: 5rem;
+            color: #8b4513;
+            font-weight: bold;
+        }
+
+        .coin-label {
+            font-size: 1.2rem;
+            color: #ffd700;
+            margin-top: 10px;
+        }
+
+        .cases-section h2, .inventory-section h2 {
+            color: #4d8eff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2a4a7c;
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .case-item {
+            background: linear-gradient(145deg, #1a2f4f, #23395d);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #2a4a7c;
+        }
+
+        .case-item:hover {
+            transform: translateY(-5px);
+            border-color: #4d8eff;
+            box-shadow: 0 5px 15px rgba(77, 142, 255, 0.3);
+        }
+
+        .case-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .case-name {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .case-price {
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .inventory-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .inventory-item {
+            background: rgba(30, 50, 90, 0.7);
+            border-radius: 10px;
+            padding: 15px;
+            width: 120px;
+            text-align: center;
+            border: 1px solid #3a5a9a;
+        }
+
+        .item-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .item-rarity {
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .common { background-color: #5a6268; color: white; }
+        .uncommon { background-color: #28a745; color: white; }
+        .rare { background-color: #007bff; color: white; }
+        .epic { background-color: #6f42c1; color: white; }
+        .legendary { background-color: #fd7e14; color: white; }
+
+        /* Анимация открытия кейса */
+        .case-opening-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .case-opening-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .case-opening-container {
+            width: 90%;
+            max-width: 800px;
+            background: #152642;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            border: 2px solid #4d8eff;
+            box-shadow: 0 0 50px rgba(77, 142, 255, 0.5);
+        }
+
+        .case-opening-title {
+            text-align: center;
+            color: #ffd700;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .case-opening-display {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(10, 20, 40, 0.8);
+            border-radius: 10px;
+            border: 2px solid #2a4a7c;
+            margin-bottom: 30px;
+        }
+
+        .center-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #ffd700;
+            z-index: 10;
+            box-shadow: 0 0 15px #ffd700;
+        }
+
+        .items-track {
+            display: flex;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: transform 2s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        .case-item-display {
+            width: 200px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .case-item-display.highlighted {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 2px solid #ffd700;
+            border-right: 2px solid #ffd700;
+        }
+
+        .case-item-display.highlighted::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .case-item-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+        }
+
+        .case-item-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .case-result {
+            text-align: center;
+            padding: 20px;
+            background: rgba(30, 50, 90, 0.8);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .case-result.active {
+            display: block;
+        }
+
+        .result-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sell {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+        }
+
+        .btn-sell:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        }
+
+        .btn-keep {
+            background: linear-gradient(to right, #4d8eff, #2a4a7c);
+            color: white;
+        }
+
+        .btn-keep:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(77, 142, 255, 0.4);
+        }
+
+        .btn-open {
+            background: linear-gradient(to right, #28a745, #1e7e34);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        .btn-open:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .btn-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            color: #8cb1ff;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .click-effect {
+            position: absolute;
+            pointer-events: none;
+            font-weight: bold;
+            z-index: 100;
+            animation: floatUp 1s forwards;
+        }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translate(-50%, -50%); }
+            100% { opacity: 0; transform: translate(-50%, -150%); }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                max-width: 100%;
+            }
+            
+            .coin {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .case-item-display {
+                width: 160px;
+            }
+            
+            .case-item-icon {
+                font-size: 2.5rem;
+            }
+            
+            .case-item-name {
+                font-size: 1rem;
+            }
+            
+            .result-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-coins"></i> Кликер с кейсами</h1>
+            <p class="subtitle">Кликай по монетке, зарабатывай очки и открывай кейсы с редкими предметами!</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Очки</div>
+                        <div class="stat-value" id="points">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Кейсы открыто</div>
+                        <div class="stat-value" id="cases-opened">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Предметы</div>
+                        <div class="stat-value" id="items-count">0</div>
+                    </div>
+                </div>
+                
+                <div class="coin-section">
+                    <h2>Кликни по монетке!</h2>
+                    <div class="coin-container" id="coin">
+                        <div class="coin"></div>
+                    </div>
+                    <p class="coin-label">Кликай для заработка очков</p>
+                    <p>За клик: <span id="click-value">1</span> очко</p>
+                </div>
+                
+                <div class="inventory-section">
+                    <h2><i class="fas fa-backpack"></i> Инвентарь</h2>
+                    <div class="inventory-items" id="inventory">
+                        <!-- Здесь будут отображаться предметы из инвентаря -->
+                        <div class="inventory-empty">Инвентарь пуст. Откройте кейсы, чтобы получить предметы!</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="cases-section">
+                    <h2><i class="fas fa-gift"></i> Кейсы для открытия</h2>
+                    <p class="subtitle">Открывайте кейсы, чтобы получить редкие предметы!</p>
+                    
+                    <div class="cases-grid" id="cases-grid">
+                        <!-- Кейсы будут добавлены через JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Оверлей для открытия кейса -->
+    <div class="case-opening-overlay" id="case-overlay">
+        <div class="case-opening-container">
+            <button class="btn-close" id="close-case-btn">&times;</button>
+            <h2 class="case-opening-title">Открытие кейса</h2>
+            
+            <div class="case-opening-display">
+                <div class="center-line"></div>
+                <div class="items-track" id="items-track">
+                    <!-- Предметы для анимации будут добавлены через JavaScript -->
+                </div>
+            </div>
+            
+            <div class="case-result" id="case-result">
+                <h3>Вам выпал:</h3>
+                <div class="result-item">
+                    <div class="case-item-icon" id="result-icon"></div>
+                    <div class="case-item-name" id="result-name"></div>
+                    <div class="item-rarity" id="result-rarity"></div>
+                    <p id="result-description"></p>
+                    <p>Цена продажи: <span id="result-price" class="case-price"></span> очков</p>
+                </div>
+                
+                <div class="result-buttons">
+                    <button class="btn btn-sell" id="sell-item-btn">Продать</button>
+                    <button class="btn btn-keep" id="keep-item-btn">Оставить в инвентаре</button>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button class="btn btn-open" id="open-case-btn">Открыть кейс</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Уведомление -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">Текст уведомления</span>
+    </div>
+    
+    <script>
+        // Игровые данные
+        let points = 0;
+        let casesOpened = 0;
+        let inventory = [];
+        let clickValue = 1;
+        
+        // Данные предметов
+        const items = {
+            armor: {
+                name: "Драконий доспех",
+                type: "armor",
+                rarity: "legendary",
+                icon: "fas fa-shield-alt",
+                sellPrice: 1000,
+                description: "Легендарный доспех, дающий максимальную защиту",
+                probability: 0.05 // 5%
+            },
+            helmet: {
+                name: "Шлем невидимости",
+                type: "helmet",
+                rarity: "epic",
+                icon: "fas fa-hard-hat",
+                sellPrice: 500,
+                description: "Эпический шлем, который делает вас менее заметным",
+                probability: 0.15 // 15%
+            },
+            weapon: {
+                name: "Меч рассвета",
+                type: "weapon",
+                rarity: "rare",
+                icon: "fas fa-gavel",
+                sellPrice: 250,
+                description: "Редкое оружие, наносящее дополнительный урон",
+                probability: 0.30 // 30%
+            },
+            backpack: {
+                name: "Рюкзак исследователя",
+                type: "backpack",
+                rarity: "uncommon",
+                icon: "fas fa-backpack",
+                sellPrice: 100,
+                description: "Необычный рюкзак, увеличивающий вместимость инвентаря",
+                probability: 0.50 // 50%
+            }
+        };
+        
+        // Данные кейсов
+        const cases = [
+            {
+                id: 1,
+                name: "Обычный кейс",
+                price: 100,
+                icon: "fas fa-box",
+                color: "#5a6268",
+                description: "Содержит обычные предметы"
+            },
+            {
+                id: 2,
+                name: "Серебряный кейс",
+                price: 250,
+                icon: "fas fa-box-open",
+                color: "#c0c0c0",
+                description: "Шанс получить редкие предметы"
+            },
+            {
+                id: 3,
+                name: "Золотой кейс",
+                price: 500,
+                icon: "fas fa-gem",
+                color: "#ffd700",
+                description: "Высокий шанс получить эпические предметы"
+            },
+            {
+                id: 4,
+                name: "Легендарный кейс",
+                price: 1000,
+                icon: "fas fa-crown",
+                color: "#fd7e14",
+                description: "Шанс получить легендарные предметы"
+            }
+        ];
+        
+        // Редкость предметов (для отображения)
+        const rarityNames = {
+            "common": "Обычный",
+            "uncommon": "Необычный",
+            "rare": "Редкий",
+            "epic": "Эпический",
+            "legendary": "Легендарный"
+        };
+        
+        // Цвета для редкостей
+        const rarityColors = {
+            "common": "#5a6268",
+            "uncommon": "#28a745",
+            "rare": "#007bff",
+            "epic": "#6f42c1",
+            "legendary": "#fd7e14"
+        };
+        
+        // DOM элементы
+        const pointsElement = document.getElementById('points');
+        const casesOpenedElement = document.getElementById('cases-opened');
+        const itemsCountElement = document.getElementById('items-count');
+        const coinElement = document.getElementById('coin');
+        const inventoryElement = document.getElementById('inventory');
+        const casesGridElement = document.getElementById('cases-grid');
+        const caseOverlayElement = document.getElementById('case-overlay');
+        const itemsTrackElement = document.getElementById('items-track');
+        const caseResultElement = document.getElementById('case-result');
+        const resultIconElement = document.getElementById('result-icon');
+        const resultNameElement = document.getElementById('result-name');
+        const resultRarityElement = document.getElementById('result-rarity');
+        const resultDescriptionElement = document.getElementById('result-description');
+        const resultPriceElement = document.getElementById('result-price');
+        const sellItemBtn = document.getElementById('sell-item-btn');
+        const keepItemBtn = document.getElementById('keep-item-btn');
+        const openCaseBtn = document.getElementById('open-case-btn');
+        const closeCaseBtn = document.getElementById('close-case-btn');
+        const notificationElement = document.getElementById('notification');
+        const notificationTextElement = document.getElementById('notification-text');
+        
+        // Текущий открываемый кейс
+        let currentCase = null;
+        let currentCaseItem = null;
+        let currentResultItem = null;
+        let itemWidth = 200; // Ширина одного предмета в треке
+        
+        // Инициализация игры
+        function initGame() {
+            loadGameData();
+            updateUI();
+            setupEventListeners();
+            renderCases();
+            renderInventory();
+            
+            // Адаптируем ширину предмета под размер экрана
+            if (window.innerWidth <= 768) {
+                itemWidth = 160;
+            }
+        }
+        
+        // Загрузка данных игры из localStorage
+        function loadGameData() {
+            const savedPoints = localStorage.getItem('clickerPoints');
+            const savedCasesOpened = localStorage.getItem('clickerCasesOpened');
+            const savedInventory = localStorage.getItem('clickerInventory');
+            
+            if (savedPoints) points = parseInt(savedPoints);
+            if (savedCasesOpened) casesOpened = parseInt(savedCasesOpened);
+            if (savedInventory) inventory = JSON.parse(savedInventory);
+        }
+        
+        // Сохранение данных игры в localStorage
+        function saveGameData() {
+            localStorage.setItem('clickerPoints', points.toString());
+            localStorage.setItem('clickerCasesOpened', casesOpened.toString());
+            localStorage.setItem('clickerInventory', JSON.stringify(inventory));
+        }
+        
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Клик по монетке
+            coinElement.addEventListener('click', handleCoinClick);
+            
+            // Открытие кейса
+            openCaseBtn.addEventListener('click', handleOpenCase);
+            
+            // Закрытие оверлея кейса
+            closeCaseBtn.addEventListener('click', () => {
+                caseOverlayElement.classList.remove('active');
+            });
+            
+            // Продажа предмета
+            sellItemBtn.addEventListener('click', handleSellItem);
+            
+            // Сохранение предмета в инвентарь
+            keepItemBtn.addEventListener('click', handleKeepItem);
+            
+            // Адаптация к изменению размера окна
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 768) {
+                    itemWidth = 160;
+                } else {
+                    itemWidth = 200;
+                }
+            });
+        }
+        
+        // Обработка клика по монетке
+        function handleCoinClick(event) {
+            // Анимация наклона монетки в сторону клика
+            const coin = coinElement.querySelector('.coin');
+            const rect = coinElement.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const centerX = rect.width / 2;
+            
+            // Определяем направление наклона
+            if (clickX < centerX) {
+                coin.style.transform = 'rotate(-15deg)';
+            } else {
+                coin.style.transform = 'rotate(15deg)';
+            }
+            
+            // Возвращаем монетку в исходное положение
+            setTimeout(() => {
+                coin.style.transform = 'rotate(0deg)';
+            }, 200);
+            
+            // Добавляем очки
+            points += clickValue;
+            updateUI();
+            saveGameData();
+            
+            // Показываем эффект
+            showClickEffect(event);
+        }
+        
+        // Показать эффект клика
+        function showClickEffect(event) {
+            const effect = document.createElement('div');
+            effect.textContent = `+${clickValue}`;
+            effect.style.position = 'fixed';
+            effect.style.left = `${event.clientX}px`;
+            effect.style.top = `${event.clientY}px`;
+            effect.style.color = '#ffd700';
+            effect.style.fontWeight = 'bold';
+            effect.style.fontSize = '1.2rem';
+            effect.style.pointerEvents = 'none';
+            effect.style.zIndex = '1000';
+            effect.style.transform = 'translate(-50%, -50%)';
+            effect.className = 'click-effect';
+            
+            document.body.appendChild(effect);
+            
+            // Удаляем эффект после анимации
+            setTimeout(() => {
+                document.body.removeChild(effect);
+            }, 1000);
+        }
+        
+        // Рендер кейсов
+        function renderCases() {
+            casesGridElement.innerHTML = '';
+            
+            cases.forEach(caseItem => {
+                const caseElement = document.createElement('div');
+                caseElement.className = 'case-item';
+                caseElement.dataset.id = caseItem.id;
+                caseElement.innerHTML = `
+                    <div class="case-icon" style="color: ${caseItem.color}">
+                        <i class="${caseItem.icon}"></i>
+                    </div>
+                    <div class="case-name">${caseItem.name}</div>
+                    <div class="case-price">${caseItem.price} очков</div>
+                    <p style="font-size: 0.9rem; margin-top: 5px;">${caseItem.description}</p>
+                `;
+                
+                caseElement.addEventListener('click', () => {
+                    openCaseModal(caseItem);
+                });
+                
+                casesGridElement.appendChild(caseElement);
+            });
+        }
+        
+        // Открыть модальное окно с кейсом
+        function openCaseModal(caseItem) {
+            if (points < caseItem.price) {
+                showNotification(`Недостаточно очков! Нужно ${caseItem.price} очков`, true);
+                return;
+            }
+            
+            currentCase = caseItem;
+            currentCaseItem = null;
+            currentResultItem = null;
+            
+            // Скрываем результат
+            caseResultElement.classList.remove('active');
+            
+            // Подготавливаем анимацию
+            prepareCaseAnimation();
+            
+            // Показываем оверлей
+            caseOverlayElement.classList.add('active');
+        }
+        
+        // Подготовка анимации открытия кейса
+        function prepareCaseAnimation() {
+            itemsTrackElement.innerHTML = '';
+            
+            // Генерируем результат
+            const resultItem = getRandomItem();
+            currentResultItem = resultItem;
+            
+            // Создаем множество предметов для анимации прокрутки
+            const itemTypes = Object.keys(items);
+            let itemsList = [];
+            
+            // Добавляем случайные предметы перед результатом
+            for (let i = 0; i < 25; i++) {
+                const randomType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+                itemsList.push(items[randomType]);
+            }
+            
+            // Добавляем результат
+            itemsList.push(resultItem);
+            
+            // Добавляем случайные предметы после результата
+            for (let i = 0; i < 25; i++) {
+                const randomType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
+                itemsList.push(items[randomType]);
+            }
+            
+            // Создаем элементы для трека
+            itemsList.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'case-item-display';
+                itemElement.style.width = `${itemWidth}px`;
+                
+                // Отмечаем выигрышный предмет
+                if (index === 25) {
+                    itemElement.classList.add('highlighted');
+                }
+                
+                itemElement.innerHTML = `
+                    <div class="case-item-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="case-item-name">${item.name}</div>
+                    <div class="item-rarity ${item.rarity}">${rarityNames[item.rarity]}</div>
+                `;
+                
+                // Устанавливаем цвет редкости
+                itemElement.querySelector('.item-rarity').style.backgroundColor = rarityColors[item.rarity];
+                
+                itemsTrackElement.appendChild(itemElement);
+            });
+            
+            // Сбрасываем позицию трека
+            itemsTrackElement.style.transform = 'translateX(0)';
+        }
+        
+        // Получить случайный предмет на основе вероятностей
+        function getRandomItem() {
+            const random = Math.random();
+            let cumulativeProbability = 0;
+            
+            for (const itemType in items) {
+                cumulativeProbability += items[itemType].probability;
+                if (random <= cumulativeProbability) {
+                    return {...items[itemType]};
+                }
+            }
+            
+            // Если что-то пошло не так, возвращаем самый распространенный предмет
+            return {...items.backpack};
+        }
+        
+        // Обработка открытия кейса
+        function handleOpenCase() {
+            if (!currentCase) return;
+            
+            // Снимаем очки за кейс
+            points -= currentCase.price;
+            
+            // Увеличиваем счетчик открытых кейсов
+            casesOpened++;
+            
+            // Обновляем UI
+            updateUI();
+            
+            // Запускаем анимацию
+            startCaseAnimation();
+            
+            // Блокируем кнопку на время анимации
+            openCaseBtn.disabled = true;
+            setTimeout(() => {
+                openCaseBtn.disabled = false;
+            }, 2500);
+        }
+        
+        // Запуск анимации открытия кейса
+        function startCaseAnimation() {
+            // Сбрасываем позицию трека
+            itemsTrackElement.style.transform = 'translateX(0)';
+            
+            // Вычисляем ширину контейнера
+            const containerWidth = itemsTrackElement.parentElement.clientWidth;
+            
+            // Позиция, на которой должен оказаться выигрышный предмет (25-й по счету)
+            const targetPosition = 25 * itemWidth - containerWidth / 2 + itemWidth / 2;
+            
+            // Запускаем анимацию с небольшой задержкой
+            setTimeout(() => {
+                itemsTrackElement.style.transform = `translateX(-${targetPosition}px)`;
+                
+                // Показываем результат после анимации
+                setTimeout(() => {
+                    showCaseResult();
+                }, 2000);
+            }, 100);
+        }
+        
+        // Показать результат открытия кейса
+        function showCaseResult() {
+            if (!currentResultItem) return;
+            
+            // Заполняем информацию о результате
+            resultIconElement.innerHTML = `<i class="${currentResultItem.icon}"></i>`;
+            resultNameElement.textContent = currentResultItem.name;
+            resultRarityElement.textContent = rarityNames[currentResultItem.rarity];
+            resultRarityElement.className = `item-rarity ${currentResultItem.rarity}`;
+            resultRarityElement.style.backgroundColor = rarityColors[currentResultItem.rarity];
+            resultDescriptionElement.textContent = currentResultItem.description;
+            resultPriceElement.textContent = currentResultItem.sellPrice;
+            
+            // Показываем блок с результатом
+            caseResultElement.classList.add('active');
+            
+            // Прокручиваем к результату
+            caseResultElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            saveGameData();
+        }
+        
+        // Обработка продажи предмета
+        function handleSellItem() {
+            if (!currentResultItem) return;
+            
+            // Добавляем очки за продажу
+            points += currentResultItem.sellPrice;
+            
+            // Показываем уведомление
+            showNotification(`Вы продали "${currentResultItem.name}" за ${currentResultItem.sellPrice} очков`);
+            
+            // Закрываем оверлей
+            caseOverlayElement.classList.remove('active');
+            
+            // Обновляем UI
+            updateUI();
+            saveGameData();
+        }
+        
+        // Обработка сохранения предмета в инвентарь
+        function handleKeepItem() {
+            if (!currentResultItem) return;
+            
+            // Добавляем предмет в инвентарь
+            inventory.push(currentResultItem);
+            
+            // Показываем уведомление
+            showNotification(`Вы добавили "${currentResultItem.name}" в инвентарь`);
+            
+            // Закрываем оверлей
+            caseOverlayElement.classList.remove('active');
+            
+            // Обновляем UI
+            updateUI();
+            renderInventory();
+            saveGameData();
+        }
+        
+        // Рендер инвентаря
+        function renderInventory() {
+            inventoryElement.innerHTML = '';
+            
+            if (inventory.length === 0) {
+                inventoryElement.innerHTML = '<div class="inventory-empty">Инвентарь пуст. Откройте кейсы, чтобы получить предметы!</div>';
+                return;
+            }
+            
+            // Группируем предметы по типу для отображения количества
+            const itemCounts = {};
+            inventory.forEach(item => {
+                const key = item.name;
+                if (!itemCounts[key]) {
+                    itemCounts[key] = { ...item, count: 0 };
+                }
+                itemCounts[key].count++;
+            });
+            
+            // Отображаем предметы
+            Object.values(itemCounts).forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'inventory-item';
+                itemElement.innerHTML = `
+                    <div class="item-icon">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-rarity ${item.rarity}">${rarityNames[item.rarity]}</div>
+                    <div style="margin-top: 8px; font-size: 0.9rem;">Количество: ${item.count}</div>
+                `;
+                
+                inventoryElement.appendChild(itemElement);
+            });
+        }
+        
+        // Показать уведомление
+        function showNotification(message, isError = false) {
+            notificationTextElement.textContent = message;
+            
+            if (isError) {
+                notificationElement.classList.add('error');
+                notificationElement.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                notificationElement.classList.remove('error');
+                notificationElement.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            notificationElement.classList.add('show');
+            
+            setTimeout(() => {
+                notificationElement.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Обновление UI
+        function updateUI() {
+            pointsElement.textContent = points;
+            casesOpenedElement.textContent = casesOpened;
+            itemsCountElement.textContent = inventory.length;
+        }
+        
+        // Инициализация игры при загрузке страницы
+        window.addEventListener('DOMContentLoaded', initGame);
+    </script>
+</body>
+</html>

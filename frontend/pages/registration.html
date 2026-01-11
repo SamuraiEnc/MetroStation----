@@ -2,10 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetroDrop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../styles/registr_styles.css">
+    <title>MetroDrop-registration</title>
 </head>
-<body>
-    
+<body class="body">
+    <section class="registr__section">
+        <p class="registr__text">ВХОД</p>
+        <div class="registr__enter-section">
+            <input type="text" placeholder="NICKNAME PUBG" class="registr__enter-section__nickname">
+            <input type="number" placeholder="ID PUBG" class="registr__enter-section__id">
+            <input type="text" placeholder="USERNAME TELEGRAM" class="registr__enter-section__tg">
+        </div>
+        <p class="registr__errors"> </p>
+        <button class="registr__entrance">ВОЙТИ</button>
+    </section>    
+    <script src="../scripts/registration.js"></script>
 </body>
 </html>

@@ -1,0 +1,120 @@
+* {
+  transition: all 0.3s;
+}
+
+html {
+  background-color: #F5EBDB;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+html .body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../images/background.png");
+  background-size: cover;
+}
+html .body .registr__section {
+  width: 375px;
+  height: 460px;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 30px;
+  background-color: #B29E7A;
+}
+@media (max-width: 768px) {
+  html .body .registr__section {
+    width: 275px;
+    height: 360px;
+  }
+}
+html .body .registr__text {
+  font-family: "Rubik Mono One";
+  font-size: 32px;
+  color: #F5EBDB;
+}
+@media (max-width: 768px) {
+  html .body .registr__text {
+    font-size: 24px;
+  }
+}
+html .body .registr__enter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+html .body .registr__enter-section__nickname, html .body .registr__enter-section__tg, html .body .registr__enter-section__id {
+  width: 315px;
+  height: 55px;
+  border-radius: 15px;
+  background-color: #F5EBDB;
+  padding: 0 15px;
+  border: none;
+  outline: none;
+}
+@media (max-width: 768px) {
+  html .body .registr__enter-section__nickname, html .body .registr__enter-section__tg, html .body .registr__enter-section__id {
+    width: 210px;
+    height: 40px;
+  }
+}
+html .body .registr__enter-section__nickname::-moz-placeholder, html .body .registr__enter-section__tg::-moz-placeholder, html .body .registr__enter-section__id::-moz-placeholder {
+  font-family: "Rubik Mono One";
+  font-size: 16px;
+  color: #B29E7A;
+}
+html .body .registr__enter-section__nickname::placeholder, html .body .registr__enter-section__tg::placeholder, html .body .registr__enter-section__id::placeholder {
+  font-family: "Rubik Mono One";
+  font-size: 16px;
+  color: #B29E7A;
+}
+@media (max-width: 768px) {
+  html .body .registr__enter-section__nickname::-moz-placeholder, html .body .registr__enter-section__tg::-moz-placeholder, html .body .registr__enter-section__id::-moz-placeholder {
+    font-size: 12px;
+  }
+  html .body .registr__enter-section__nickname::placeholder, html .body .registr__enter-section__tg::placeholder, html .body .registr__enter-section__id::placeholder {
+    font-size: 12px;
+  }
+}
+html .body .registr__enter-section__nickname:focus, html .body .registr__enter-section__tg:focus, html .body .registr__enter-section__id:focus {
+  background-color: #E9CDA1;
+}
+html .body .registr__errors {
+  margin-left: 20px;
+  margin-right: auto;
+  font-family: "Rubik Mono One";
+  color: #b9361f;
+}
+html .body .registr__entrance {
+  width: 345px;
+  height: 55px;
+  border: none;
+  border-radius: 15px;
+  background-color: #F5EBDB;
+  font-family: "Rubik Mono One";
+  font-size: 20px;
+  color: #B29E7A;
+  margin-top: auto;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  html .body .registr__entrance {
+    width: 240px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+html .body .registr__entrance:hover {
+  transform: scale(1.02);
+}
+html .body .registr__entrance:active {
+  transform: scale(0.95);
+}/*# sourceMappingURL=registr_styles.css.map */

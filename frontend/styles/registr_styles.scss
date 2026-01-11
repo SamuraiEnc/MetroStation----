@@ -1,6 +1,9 @@
 *{
     transition: all 0.3s;
+    font-family: 'Rubik Mono One';
+    -webkit-tap-highlight-color: transparent;
 }
+
 html{
     background-color: #F5EBDB;
     -webkit-user-select: none;
@@ -38,7 +41,6 @@ html{
             }
 
             &__text{
-                font-family: 'Rubik Mono One';
                 font-size: 32px;
                 color: #F5EBDB;
 
@@ -69,7 +71,6 @@ html{
                     }
 
                     &::placeholder{
-                        font-family: 'Rubik Mono One';
                         font-size: 16px;
                         color:#B29E7A;
 
@@ -95,7 +96,6 @@ html{
             &__errors{
                 margin-left: 20px;
                 margin-right: auto;
-                font-family: 'Rubik Mono One';
                 color: #b9361f;
             }
 
@@ -105,7 +105,6 @@ html{
                 border: none;
                 border-radius: 15px;
                 background-color: #F5EBDB;
-                font-family: 'Rubik Mono One';
                 font-size: 20px;
                 color: #B29E7A;
                 margin-top: auto;

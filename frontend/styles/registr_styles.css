@@ -1,5 +1,7 @@
 * {
   transition: all 0.3s;
+  font-family: "Rubik Mono One";
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -36,7 +38,6 @@ html .body .registr__section {
   }
 }
 html .body .registr__text {
-  font-family: "Rubik Mono One";
   font-size: 32px;
   color: #F5EBDB;
 }
@@ -67,12 +68,10 @@ html .body .registr__enter-section__nickname, html .body .registr__enter-section
   }
 }
 html .body .registr__enter-section__nickname::-moz-placeholder, html .body .registr__enter-section__tg::-moz-placeholder, html .body .registr__enter-section__id::-moz-placeholder {
-  font-family: "Rubik Mono One";
   font-size: 16px;
   color: #B29E7A;
 }
 html .body .registr__enter-section__nickname::placeholder, html .body .registr__enter-section__tg::placeholder, html .body .registr__enter-section__id::placeholder {
-  font-family: "Rubik Mono One";
   font-size: 16px;
   color: #B29E7A;
 }
@@ -90,7 +89,6 @@ html .body .registr__enter-section__nickname:focus, html .body .registr__enter-s
 html .body .registr__errors {
   margin-left: 20px;
   margin-right: auto;
-  font-family: "Rubik Mono One";
   color: #b9361f;
 }
 html .body .registr__entrance {
@@ -99,7 +97,6 @@ html .body .registr__entrance {
   border: none;
   border-radius: 15px;
   background-color: #F5EBDB;
-  font-family: "Rubik Mono One";
   font-size: 20px;
   color: #B29E7A;
   margin-top: auto;
